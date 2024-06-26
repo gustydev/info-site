@@ -1,29 +1,9 @@
-const fs = require('fs');
-const http = require('http');
+const express = require('express');
+const app = express();
+const port = 3000;
 
-http.createServer(function (req, res) {
-  let filename;
-  if (req.url === '/' || req.url === '/favicon.ico') {
-    filename = './pages/index.html';
-  } else {
-    filename = './pages' + req.url + '.html';
-  }
+app.use(express.static('pages'));
 
-  fs.readFile(filename, (err, data) => {
-    if (err) {
-      fs.readFile('./pages/404.html', (error, data) => {
-        if (error) {
-          res.write('Error reading 404 page:', error)
-          return res.end();
-        }
-        res.writeHead(404, {'Content-Type': 'text/html'});
-        res.write(data);
-        return res.end();
-      })
-    } else {
-      res.writeHead(200, {'Content-Type': 'text/html'});
-      res.write(data);
-      return res.end();
-    }
-  })
-}).listen(8080);
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`)
+})
