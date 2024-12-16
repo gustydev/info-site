@@ -6,10 +6,10 @@ const app = express();
 const port = 3000;
 
 // Load SSL certificate and key
-const privateKey = fs.readFileSync('/home/ubuntu/ssl-certificates/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/home/ubuntu/ssl-certificates/cert.pem', 'utf8');
-
-const credentials = { key: privateKey, cert: certificate };
+const options = {
+  key: fs.readFileSync('/home/ubuntu/ssl-certificates/privkey.pem'),
+  cert: fs.readFileSync('/home/ubuntu/ssl-certificates/fullchain.pem'),
+};
 
 app.get('/', (req, res) => {
   const file = path.join(__dirname, 'pages', 'index.html');
@@ -26,7 +26,7 @@ app.get('/contact', (req, res) => {
   res.sendFile(file);
 })
 
-https.createServer(credentials, app).listen(port, () => {
+https.createServer(options, app).listen(port, () => {
   console.log(`Server running on https://gustydev.duckdns.org`);
 });
 
