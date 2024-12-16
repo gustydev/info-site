@@ -6,11 +6,10 @@ const app = express();
 const port = 3000;
 
 // Load SSL certificate and key
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/gustydev.duckdns.org/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/gustydev.duckdns.org/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/gustydev.duckdns.org/chain.pem', 'utf8');
+const privateKey = fs.readFileSync('/home/ubuntu/ssl-certificates/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/home/ubuntu/ssl-certificates/cert.pem', 'utf8');
 
-const credentials = { key: privateKey, cert: certificate, ca: ca };
+const credentials = { key: privateKey, cert: certificate };
 
 app.get('/', (req, res) => {
   const file = path.join(__dirname, 'pages', 'index.html');
